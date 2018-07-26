@@ -14,6 +14,7 @@ namespace LabNumber8
 
             string[] favoriteFoods = { "Lasagna", "Chicken", "Pig-Feet", "Moose-Knuckles", "Ice Cream", "Brains", "Texas de Brazil", "Lint", "Dust Bunnies", "Pizza", "Steak", "Spaghetti", "Salmon", "Boogers" };
 
+
             //***INPUT***
 
             Console.WriteLine("Welcome to our c# class." + "\n");
@@ -27,71 +28,117 @@ namespace LabNumber8
                     Console.WriteLine(i + 1 + ". " + students[i]); //Prints students Array
                 }
 
-                Console.Write("\n" + "Which student would you like to learn more about? (enter a number 1 - 20): ");
-                int userInput = int.Parse(Console.ReadLine().ToLower());
+                Console.Write("\n" + "Which student would you like to learn more about? (enter a number 1 - 14): ");
 
-                Console.WriteLine($"\nStudent {userInput} is {students[userInput - 1]}. What would you like to know about {students[userInput - 1]}? (enter or \"hometown\" or \"favorite food\")");
-                string userSelection = Console.ReadLine().ToLower();
-
-
-                if (userSelection == "hometown")
+                try
                 {
-                    Console.Write($"\n{students[userInput - 1]} is from {hometowns[userInput - 1]}. Would you like to know more (enter \"yes\" or \"no\")?\n");
-                    string continueResponse = Console.ReadLine();
+                    int userInput = int.Parse(Console.ReadLine().ToLower());
 
-                    if (continueResponse == "yes")
-                    {
-                        repeat1 = true;
-                    }
-                    else if (continueResponse == "no")
-                    {
-                        Console.WriteLine("Thanks!");
-                        repeat1 = false;
-                    }
+                    Console.WriteLine($"\nStudent {userInput} is {students[userInput - 1]}. What would you like to know about {students[userInput - 1]}? (enter or \"hometown\" or \"favorite food\")");
 
+                    string userSelection = Console.ReadLine().ToLower();
+
+                    StudentFactChecker(students, hometowns, favoriteFoods, repeat1, userInput, userSelection);
+                    break;
                 }
-                else if (userSelection == "favorite food")
+                catch(FormatException)
                 {
-                    Console.WriteLine($"\n{students[userInput - 1]}'s favorite food is: {favoriteFoods[userInput - 1]}. Would you like to know more? (enter \"yes\" or \"no\")\n ");
-                    string continueResponse = Console.ReadLine();
-
-                    if (continueResponse == "yes")
-                    {
-                        repeat1 = true;
-                    }
-                    else if (continueResponse == "no")
-                    {
-                        Console.WriteLine("Thanks!");
-                        repeat1 = false;
-                    }
+                    Console.WriteLine("Error: Invalid input! Please try again...\n");
+                    repeat1 = true;
                 }
-                else
+                catch(ArgumentNullException)
                 {
-                    Console.WriteLine("That data does not exist. Please try again...\n");
+                    Console.WriteLine("Error: Input cannot be null. Please try again...\n");
+                    repeat1 = true;
                 }
+                catch(OverflowException)
+                {
+                    Console.WriteLine("Error: Input is too large/too small. Please try again...\n");
+                    repeat1 = true;
+                }
+                catch(IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Error: Input can not be less than 1 or greater than 14");
+                    repeat1 = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid Error\n");
+                    repeat1 = false;
+                }
+            }
+        }
 
+        private static void StudentFactChecker(string[] students, string[] hometowns, string[] favoriteFoods, bool repeat1, int userInput, string userSelection)
+        {
+            if (userSelection == "hometown")
+            {
+                Console.Write($"\n{students[userInput - 1]} is from {hometowns[userInput - 1]}. Would you like to know more (enter \"yes\" or \"no\")?\n");
+                string continueResponse = Console.ReadLine();
 
-
-
-
-
+                if (continueResponse == "yes")
+                {
+                    repeat1 = true;
+                }
+                else if (continueResponse == "no")
+                {
+                    Console.WriteLine("Thanks!");
+                    repeat1 = false;
+                }
 
             }
+            else if (userSelection == "favorite food")
+            {
+                Console.WriteLine($"\n{students[userInput - 1]}'s favorite food is: {favoriteFoods[userInput - 1]}. Would you like to know more? (enter \"yes\" or \"no\")\n ");
+                string continueResponse = Console.ReadLine();
 
-
-
-
-
-
-
-
-
-
-
-
-
+                if (continueResponse == "yes")
+                {
+                    repeat1 = true;
+                }
+                else if (continueResponse == "no")
+                {
+                    Console.WriteLine("Thanks!");
+                    repeat1 = false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("That data does not exist. Please try again...\n");
+            }
 
 
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
